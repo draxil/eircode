@@ -160,13 +160,7 @@ the formatting is correct, doesn't contain invalid characters etc. If you want
 to ensure the Eircode is a real existing code that goes well beyond the scope
 of what this module is trying to achieve. However you probably still want to
 run this kind of check before you go dialing out to an API to do that kind of
-check. 
-
-
-=head1 FUTURE
-
-The checking is currently basic and there are no tools for dismembering an
-Eircode into it's parts or other such utilities which would seem to be useful here.
+check.
 
 =head1 REFERENCES
 
