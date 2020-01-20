@@ -33,7 +33,7 @@ our @EXPORT_OK = ( qw<
                          normalise_eircode
                          split_eircode
                      > );
-our $VERSION = "0.1.0";
+our $VERSION = "0.2.0";
 
 =head2 check_eircode
 
