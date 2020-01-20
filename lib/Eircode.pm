@@ -48,6 +48,10 @@ are all key => bool options.
  strict => 1, # enforces upper case and the space mutually exclusive with lax
  lax => 1, # allows any valid sequence irriguadless of spaces. mutually
            # exclusive with strict.
+ space_optional => 1, # will accept A65B2CD but not A65 B2 CD. Essentially not
+                      # fussed about the space that should be there, but will
+                      # not tolerate completely random spacing like lax will.
+
 
 The default behaviour is to enforce the space but not case sensitivity.
 
@@ -59,6 +63,9 @@ So:
   check_eircode("a65b2cd", {strict => 1}); # fail
   check_eircode("a65 b2cd", {strict => 1}); # fail
   check_eircode("A65 B2CD", {strict => 1}); # pass
+  check_eircode("a65b2cd", {space_optional => 1}); # pass
+  check_eircode("a65 b2cd", {space_optional => 1}); # pass
+  check_eircode("a65b 2cd", {space_optional => 1}); # fail
 
 =cut
 
@@ -73,9 +80,11 @@ sub check_eircode{
 
     my $strict = $opt->{strict};
     my $lax = $opt->{lax};
+    my $space_optional = $opt->{space_optional};
+    my @options = grep{$_} ($strict, $lax, $space_optional);
 
-    if( $strict && $lax ){
-        croak 'Cant be strict and lax at the same time';
+    if( scalar @options > 1){
+        croak q{Can't combine options for strict/lax/space_optional at the moment};
     }
 
     if( $lax ){
@@ -107,10 +116,14 @@ const my $UID => "${EIR_ANY}{4}";
 sub build_re{
     my($opt) = @_;
     my $lax = $opt->{lax};
+    my $space_optional = $opt->{space_optional};
 
     my $re;
     if( $lax ){
         $re = qr{^$ROUTING_KEY$UID$};
+    }
+    elsif( $space_optional ){
+        $re = qr{^$ROUTING_KEY\s*$UID$};
     }
     else{
         $re = qr{^$ROUTING_KEY\s+$UID$};
