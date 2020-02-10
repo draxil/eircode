@@ -4,6 +4,8 @@ package Eircode;
 
 # Check Eircodes / Irish postcodes
 
+=encoding utf8
+
 =head1 SYNOPSIS
 
  use Eircode qw< check_eircode >;
