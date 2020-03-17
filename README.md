@@ -2,5 +2,5 @@
 
 validates, splits and normalises Irish postcodes (eircodes).
 
-See POD for full details
+See [POD](https://metacpan.org/pod/Eircode) for full details
 
